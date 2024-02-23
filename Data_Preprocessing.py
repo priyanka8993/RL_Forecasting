@@ -2,20 +2,21 @@ import pandas as pd
 import numpy as np
 
 class preprocess():
-    def __init__(self,input_tw,output_tw):
+    def __init__(self,input_tw,output_tw, interval):
         self.input_tw = input_tw
         self.output_tw = output_tw
+        self.interval = interval
 
     def get_train_seq(self):
-        train_data = pd.read_csv('C:/Users/Priyanka/ML_Projects/HM/RL_Forecasting/data/Store_Product_Quantity_Train.csv', sep = '\t')
+        train_data = pd.read_csv('C:/Users/Priyanka/ML_Projects/HM/RL_Forecasting/data/Train_stock_data.csv', sep = ',')
         print(train_data.head())
         train_x_seq, train_y_seq = self.get_data_seq(train_data)
-        print(train_x_seq.shape)
-        print(train_y_seq.shape)
+        #print(train_x_seq.shape)
+        #print(train_y_seq.shape)
         return train_x_seq, train_y_seq
     
     def get_test_seq(self):
-        test_data = pd.read_csv('C:/Users/priyanka.chakraborty/Projects/COE/RL/Projects/Fastenal_v2/Fastenal/data/Store_Product_Quantity_Test.csv', sep = '\t')
+        test_data = pd.read_csv('C:/Users/Priyanka/ML_Projects/HM/RL_Forecasting/data/Test_stock_data.csv', sep = '\t')
         test_x_seq, test_y_seq = self.get_data_seq(test_data)
         print(test_x_seq.shape)
         print(test_y_seq.shape)
@@ -31,14 +32,14 @@ class preprocess():
     def create_sequences(self,data):
         inout_seq = []
         L = len(data)
-        for i in range(L-self.input_tw):
+        for i in  range(0, (L-self.input_tw), self.interval):
             _seq = data[i:i+self.input_tw]
             _label = data[i+self.input_tw:i+self.input_tw+self.output_tw]
             inout_seq.append((_seq ,_label))
         return inout_seq
 
     def all_seq(self,data):
-        train_data_grouped = data.groupby('INV_ITEM_ID')
+        train_data_grouped = data.groupby('Name')
         feature_sequences = {}
         for i in train_data_grouped:
             sequences = self.create_sequences(i[1])
@@ -50,8 +51,10 @@ class preprocess():
         X = []
         y = []
         for seq, out in feature_sequences[prodID]:
-            X.append(seq['QTY_CONSUMED']);y.append(out['QTY_CONSUMED'])   
-        
-        X = np.asarray(X)
-        y = np.asarray(y)
+            X.append(seq['close'])
+            y.append(out['close'])   
+        print(print(len(i)) for i in X)
+        print(print(len(j)) for j in y)
+        # X = np.asarray(X)
+        # y = np.asarray(y)
         return X, y

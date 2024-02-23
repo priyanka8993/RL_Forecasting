@@ -15,8 +15,9 @@ class DemandForecastingEnv(gym.Env):
         self.current_step = 0
 
         # Define action and observation spaces
-        self.action_space = gym.spaces.Box(low= 100.0, high= 1200.0 , shape=(3,), dtype=np.float32)
-        self.observation_space = gym.spaces.Box(low=100.0, high=np.inf, shape=(lookback_window,)) 
+        self.action_space = gym.spaces.Box(low=10.5, high=40.0 , shape=(7
+                                                                        ,), dtype=np.float32)
+        self.observation_space = gym.spaces.Box(low=10.0, high=50.0, shape=(30,)) 
 
     def reset(self):
         self.current_step = 0
