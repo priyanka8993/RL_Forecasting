@@ -7,7 +7,7 @@ class preprocess():
         self.output_tw = output_tw
 
     def get_train_seq(self):
-        train_data = pd.read_csv('C:/Users/priyanka.chakraborty/Projects/COE/RL/Projects/Fastenal_v2/Fastenal/data/Store_Product_Quantity_Train.csv', sep = '\t')
+        train_data = pd.read_csv('C:/Users/Priyanka/ML_Projects/HM/RL_Forecasting/data/Store_Product_Quantity_Train.csv', sep = '\t')
         print(train_data.head())
         train_x_seq, train_y_seq = self.get_data_seq(train_data)
         print(train_x_seq.shape)
