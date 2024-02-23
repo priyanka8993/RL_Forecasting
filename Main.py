@@ -12,7 +12,7 @@ preprocess_object = preprocess(input_window,output_window, interval)
 
 ## Train agent
 train_x_seq, train_y_seq = preprocess_object.get_train_seq()
-DF_Env = DemandForecastingEnv(train_x_seq,train_x_seq, 15)
+DF_Env = DemandForecastingEnv(train_x_seq,train_x_seq, 84)
 n_actions = DF_Env.action_space.shape
 agent = RecurrentPPO('MlpLstmPolicy', DF_Env, verbose = 1)
 trained_agent = agent.learn(total_timesteps=100000, log_interval=10)
