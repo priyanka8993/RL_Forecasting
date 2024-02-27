@@ -15,8 +15,8 @@ class DemandForecastingEnv(gym.Env):
         self.current_step = 0
 
         # Define action and observation spaces
-        self.action_space = gym.spaces.Box(low=10.5, high=40.0 , shape=(14,), dtype=np.float32)
-        self.observation_space = gym.spaces.Box(low=10.0, high=50.0, shape=(84,)) 
+        self.action_space = gym.spaces.Box(low=10.0 , high=55.0 , shape=(14,), dtype=np.float32)
+        self.observation_space = gym.spaces.Box(low=15, high=50, shape=(84,)) 
 
     def reset(self):
         self.current_step = 0
@@ -30,18 +30,12 @@ class DemandForecastingEnv(gym.Env):
         # Calculate reward
         reward = self.calculate_reward(action, next_state)
         # Check if the episode is done (end of data)
-        done = self.current_step >= len(self.x_data) - self.lookback_window
+        print("Current Step:::",self.current_step)
+        done = self.current_step >= (len(self.x_data)-1)
         print("action is :::", action)
         print("reward is :::", reward)
         print("state is :::", next_state)
         return next_state, reward, done, {}
-        # elif self.current_step == 0:
-        #     next_state = self.x_data[self.current_step]
-        #     # Calculate reward
-        #     reward = self.calculate_reward(action, next_state)
-        #     # Check if the episode is done (end of data)
-        #     done = self.current_step >= len(self.x_data) - self.lookback_window
-        #     return next_state, reward, done, {}
 
 
     def calculate_reward(self, action, observation):
